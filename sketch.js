@@ -18,6 +18,11 @@ var config = {
 
 var cursors;
 var player;
+var x;
+var y;
+var keySpace;
+var rect;
+var graphics;
 
 var game = new Phaser.Game(config);
 
@@ -28,11 +33,16 @@ function preload ()
 
 function create ()
 {
+    x = 300;
+    y = 300;
     cursors = this.input.keyboard.createCursorKeys();
 
-    player = this.physics.add.image(400, 300, 'block');
+    player = this.physics.add.image(x, y, 'block');
 
     player.setCollideWorldBounds(true);
+    keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    rect = new Phaser.Geom.Rectangle(player.x, player.y, 50, 50);
+    graphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
 }
 
 function update ()
@@ -55,5 +65,9 @@ function update ()
     else if (cursors.down.isDown)
     {
         player.setVelocityY(300);
+    }
+    if(keySpace.isDown){
+        rect = new Phaser.Geom.Rectangle(player.x, player.y, 50, 50);
+        graphics.fillRectShape(rect);
     }
 }
