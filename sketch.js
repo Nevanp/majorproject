@@ -21,14 +21,20 @@ var player;
 var x;
 var y;
 var keySpace;
-var rect;
+var tear;
 var graphics;
+var checkKey;
+var keyA;
+var keyW;
+var keyD;
+var keyS;
 
 var game = new Phaser.Game(config);
 
 function preload ()
 {
     this.load.image('block', 'assets/a.png');
+    this.load.image('tear', 'assets/teardrop.png');
 }
 
 function create ()
@@ -36,13 +42,18 @@ function create ()
     x = 300;
     y = 300;
     cursors = this.input.keyboard.createCursorKeys();
+    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+
+    
 
     player = this.physics.add.image(x, y, 'block');
 
     player.setCollideWorldBounds(true);
     keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    rect = new Phaser.Geom.Rectangle(player.x, player.y, 50, 50);
-    graphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
+    
 }
 
 function update ()
@@ -52,22 +63,43 @@ function update ()
     if (cursors.left.isDown)
     {
         player.setVelocityX(-300);
+        checkKey = "left";
     }
     else if (cursors.right.isDown)
     {
         player.setVelocityX(300);
+        checkKey = "right";
     }
 
     if (cursors.up.isDown)
     {
         player.setVelocityY(-300);
+        checkKey = "up";
     }
     else if (cursors.down.isDown)
     {
         player.setVelocityY(300);
+        checkKey = "down";
     }
-    if(keySpace.isDown){
-        rect = new Phaser.Geom.Rectangle(player.x, player.y, 50, 50);
-        graphics.fillRectShape(rect);
+    if(keyS.isDown){
+        tear = this.physics.add.image(player.x, player.y, 'tear');
+        tear.setVelocityY(500);
+
     }
+    else if(keyW.isDown){
+        tear = this.physics.add.image(player.x, player.y, 'tear');
+        tear.setVelocityY(-500);
+        
+        }
+    else if(keyA.isDown){
+        tear = this.physics.add.image(player.x, player.y, 'tear');
+        tear.setVelocityX(-500);
+
+        }
+    else if(keyD.isDown){
+        tear = this.physics.add.image(player.x, player.y, 'tear');
+        tear.setVelocityX(500);
+
+        }
+    
 }

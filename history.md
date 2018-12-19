@@ -14,3 +14,8 @@
 -researched how to work phaser
 ## decemeber 18
 -made a block move in phaser
+-made it put down square
+## december 19
+- made tear pic
+- able to shoot tears
+- shoot tears in different direction
