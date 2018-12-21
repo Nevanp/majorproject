@@ -19,3 +19,5 @@
 - made tear pic
 - able to shoot tears
 - shoot tears in different direction
+## december 20
+- made shooting smaller

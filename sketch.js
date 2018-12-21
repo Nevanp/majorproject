@@ -33,12 +33,14 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('block', 'assets/a.png');
-    this.load.image('tear', 'assets/teardrop.png');
+    this.load.image('isaac', 'assets/isaac.png');
+    this.load.image('tear', 'assets/teardrop1.png');
+    this.load.image('background', 'assets/room.png');
 }
 
 function create ()
 {
+    this.add.image(0,0,'backround')
     x = 300;
     y = 300;
     cursors = this.input.keyboard.createCursorKeys();
@@ -49,7 +51,9 @@ function create ()
 
     
 
-    player = this.physics.add.image(x, y, 'block');
+    player = this.physics.add.image(x, y, 'isaac');
+    player.displayOriginX = (40);
+    player.displayOriginY = (20);
 
     player.setCollideWorldBounds(true);
     keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -81,6 +85,7 @@ function update ()
         player.setVelocityY(300);
         checkKey = "down";
     }
+    
     if(keyS.isDown){
         tear = this.physics.add.image(player.x, player.y, 'tear');
         tear.setVelocityY(500);
