@@ -192,7 +192,7 @@ function update ()
                     blood.setVelocityY(400);
 
                 }
-                this.physics.add.collider(blood, player, gameover, null, this);
+                this.physics.add.collider(blood, player, bloodRemover, gameover, this);
               
             }
         }
@@ -202,7 +202,7 @@ function update ()
 
 function gameover(){
     if (playerHealth > 0){
-        blood.disableBody(true, true);
+        
         playerHealth --;
         heart[playerHealth + 1].destroy();
         
@@ -233,4 +233,9 @@ function ouch(){
     if(enemyHealth <= 0){
         enemy.disableBody(true, true);
     }
+}
+
+
+function bloodRemover(){
+    blood.disableBody(true, true);
 }
