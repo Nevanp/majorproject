@@ -51,6 +51,8 @@ function preload ()
 
 function create ()
 {
+    blood = this.physics.add.image(0, 0, 'blood');
+    tear = this.physics.add.image(0, 0, 'tear');
     background = this.add.image(config.width / 2, config.height / 2 ,'background');
     background.scaleX = .6;
     background.scaleY = 0.8;
@@ -117,13 +119,15 @@ function update ()
             player.setVelocityY(playerSpeed);
             checkKey = "down";
         }
-        if(counter % 30 === 0){
+        if(counter % 45 === 0){
+            tear.disableBody(true, true);
             if(keyS.isDown){
                 tear = this.physics.add.image(player.x, player.y, 'tear');
                 tear.setVelocityY(500);
                 this.physics.add.collider(tear, enemy, ouch);
             }
             else if(keyW.isDown){
+                tear.disableBody(true, true);
                 tear = this.physics.add.image(player.x, player.y, 'tear');
                 tear.setVelocityY(-500);
                 this.physics.add.collider(tear, enemy, ouch);
@@ -171,28 +175,30 @@ function update ()
                     checkKey = "down";
                 }
                 //enemy fire
+                
                 if(counter2 % 45 === 0){
+                    bloodRemover();
                 if(player.y < enemy.y && dist(enemy.x, player.x) < dist(enemy.y, player.y)){
                     blood = this.physics.add.image(enemy.x, enemy.y, 'blood');
                     blood.setVelocityY(-400);
-
+                    this.physics.add.collider(blood, player, gameover, bloodRemover, this);
                 }
                 if(player.x > enemy.x && dist(enemy.x, player.x) > dist(enemy.y, player.y)){
                     blood = this.physics.add.image(enemy.x, enemy.y, 'blood');
                     blood.setVelocityX(400);
-
+                    this.physics.add.collider(blood, player, gameover, bloodRemover, this);
                 }
                 if(player.x < enemy.x && dist(enemy.x, player.x) > dist(enemy.y, player.y)){
                     blood = this.physics.add.image(enemy.x, enemy.y, 'blood');
                     blood.setVelocityX(-400);
-
+                    this.physics.add.collider(blood, player, gameover, bloodRemover, this);
                 }
                 if(player.y > enemy.y && dist(enemy.x, player.x) < dist(enemy.y, player.y)){
                     blood = this.physics.add.image(enemy.x, enemy.y, 'blood');
                     blood.setVelocityY(400);
-
+                    this.physics.add.collider(blood, player, gameover, bloodRemover, this);
                 }
-                this.physics.add.collider(blood, player, bloodRemover, gameover, this);
+               
               
             }
         }
@@ -237,5 +243,5 @@ function ouch(){
 
 
 function bloodRemover(){
-    blood.disableBody(true, true);
+    blood.disableBody(true, true); 
 }
