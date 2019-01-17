@@ -28,7 +28,7 @@ var keyA;
 var keyW;
 var keyD;
 var keyS;
-var counter = 0;
+var counter = 45;
 var playerSpeed = 250;
 var enemyspeed = 50;
 var counter2 = 0;
@@ -36,6 +36,7 @@ var state = 1;
 var enemyHealth = 3;
 var playerHealth = 10;
 var heart = [];
+
 
 var game = new Phaser.Game(config);
 
@@ -119,8 +120,13 @@ function update ()
             player.setVelocityY(playerSpeed);
             checkKey = "down";
         }
-        if(counter % 45 === 0){
-            tear.disableBody(true, true);
+
+        if (counter < 30 ){
+            counter ++;
+        }
+
+        else{
+            tear.disableBody(true,true);
             if(keyS.isDown){
                 tear = this.physics.add.image(player.x, player.y, 'tear');
                 tear.setVelocityY(500);
@@ -142,15 +148,11 @@ function update ()
                 tear.setVelocityX(500);
                 this.physics.add.collider(tear, enemy, ouch);
                 }
-                
-            }
-            //shoot timer
-            if(keyA.isDown || keyS.isDown || keyD.isDown || keyW.isDown ){
-                counter ++;
-            }
-            else{
                 counter = 0;
             }
+            //shoot timer
+            
+            
             if(enemyHealth > 0){
     //enemy movement
                 if (player.x < enemy.x)
