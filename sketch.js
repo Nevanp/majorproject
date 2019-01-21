@@ -1,3 +1,5 @@
+
+//load world
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -15,7 +17,7 @@ var config = {
         update: update
     }
 };
-
+//set variables
 var cursors;
 var player;
 var x;
@@ -34,17 +36,17 @@ var enemyspeed = 50;
 var counter2 = 0;
 var state = 1;
 var enemyHealth = 3;
-var playerHealth = 10;
+var playerHealth = 5;
 var heart = [];
 var room1;
 var room2;
 var fly;
-var flySpeed = 300;
+var flySpeed = 170;
 var flyHealth = 2;
 
 
 var game = new Phaser.Game(config);
-
+//load assets
 function preload ()
 {
     this.load.image('isaac', 'assets/isaac.png');
@@ -57,13 +59,15 @@ function preload ()
     this.load.image('heart', 'assets/heart.png');
     this.load.image('fly', 'assets/fly.png');
 }
-
+//set starting states
 function create ()
 {
+    //load sprites
     blood = this.physics.add.image(0, 0, 'blood');
     tear = this.physics.add.image(0, 0, 'tear');
     fly = this.physics.add.image(100, 100, 'fly');
     enemy = this.physics.add.image(100, 100, 'enemy');
+    //load rooms
     room2 = this.add.image(config.width / 2, config.height / 2 ,'room2');
     room1 = this.add.image(config.width / 2, config.height / 2 ,'background');
     room3 = this.add.image(config.width / 2, config.height / 2 ,'room3');
@@ -72,6 +76,7 @@ function create ()
     background.scaleY = 0.8;
     x = 400;
     y = 400;
+    //load in key use
     cursors = this.input.keyboard.createCursorKeys();
     keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -79,7 +84,7 @@ function create ()
     keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
     
-    
+    //player display and sizing
     player = this.physics.add.image(x, y, 'isaac');
     
     // player.displayOriginX = (10);
@@ -94,7 +99,7 @@ function create ()
 
     keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     // this.physics.add.collider(enemy, 'tear');
-    
+    //heart preload
     for(let i = playerHealth; i > 0; i --){
         heart[i] = this.add.image(20*i, 20, 'heart');
         heart[i].scaleX = 0.5;
@@ -103,9 +108,10 @@ function create ()
 
     
 }
-
+//change motion
 function update ()
 {
+    //move player
     if(state !== 2){
         counter2 ++;
         player.setVelocity(0);
@@ -131,7 +137,7 @@ function update ()
             player.setVelocityY(playerSpeed);
             checkKey = "down";
         }
-
+        //tears shooter
         if (counter < 30 ){
             counter ++;
         }
@@ -189,6 +195,11 @@ function update ()
                     player.scaleX = 0.5;
                     player.scaleY = 0.5;
                 }
+                for(let i = playerHealth; i > 0; i --){
+                    heart[i] = this.add.image(20*i, 20, 'heart');
+                    heart[i].scaleX = 0.5;
+                    heart[i].scaleY = 0.5;
+                }
             }
             if(player.x > 763 && player.y > 275 && player.y < 325 && state !== 4){
                 player.x = 40;
@@ -212,7 +223,16 @@ function update ()
                     player.setCollideWorldBounds(true);
                     player.scaleX = 0.5;
                     player.scaleY = 0.5;
+                    fly = this.physics.add.image(400, 100, 'fly');
+                    fly.setCollideWorldBounds(true);
+                    fly.scaleX = 0.2;
+                    fly.scaleY = 0.2;
                     
+                }
+                for(let i = playerHealth; i > 0; i --){
+                    heart[i] = this.add.image(20*i, 20, 'heart');
+                    heart[i].scaleX = 0.5;
+                    heart[i].scaleY = 0.5;
                 }
             }
             if(state === 3){
@@ -272,10 +292,7 @@ function update ()
             //fly moving
             if(state === 4){
                 
-                    fly = this.physics.add.image(400, 100, 'fly');
-                    fly.setCollideWorldBounds(true);
-                    fly.scaleX = 0.5;
-                    fly.scaleY = 0.5;
+                    
                     this.physics.add.collider(tear, fly, ouch);
                     this.physics.add.collider(player, fly, gameover, null, this);
                     //fly move
@@ -302,10 +319,11 @@ function update ()
                     }
             }
     }
+    
 }
 
 
-
+//player health and gameover load
 function gameover(){
     if (playerHealth > 0){
         
@@ -315,13 +333,15 @@ function gameover(){
     }
     if (playerHealth <= 0){
     state = 2;
-    this.add.image(config.width / 2, config.height / 2 ,'background');
+    over = this.add.image(config.width / 2, config.height / 2 ,'background');
+        over.scaleX = 100;
+        over.scaleY = 100;
     
     text = this.add.text(config.width/6, config.height / 2, "You Lose", { font: "74px Times New Roman", fill: "#f00" } );
     }
 }
 
-
+//find distance between things
 function dist(p1, p2){
     var ans = p1 - p2;
     if(ans < 0){
@@ -332,7 +352,7 @@ function dist(p1, p2){
         return ans;
     }
 }
-
+//hurt enemies
 function ouch(){
     tear.disableBody(true, true);
     if(state === 3){

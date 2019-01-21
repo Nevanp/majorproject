@@ -21,3 +21,21 @@
 - shoot tears in different direction
 ## december 20
 - made shooting smaller
+## January 7
+- added in enemy one
+- enemy moving
+## January 8
+- made enemy shoot
+## January 9
+- added hitboxs and gameover
+## January 10
+- fixed hitbox errors
+## January 11
+- hearts for player health fixed collision glit
+- shoot timer and range added
+## January 20
+- added enemy 2
+- added more rooms
+- made room moving work
+## January 21
+- made enemy 2 work well
